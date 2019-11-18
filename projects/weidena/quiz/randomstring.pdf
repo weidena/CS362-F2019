@@ -1,0 +1,7 @@
+In order to meet the criteria that would cause the program to crash 
+(reaching state 9 with input char and spelling reset with input string)
+I found ranges that would fall within the criteria.  This is to say that
+I included everything from ' ' to ']' in my range for inputChar() to reach 
+state 9 and all the letters that would spell reset in inputString().
+To limit the range for inputString (so that the test would not take forever)
+I only included letters e to t.
