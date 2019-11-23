@@ -1234,7 +1234,7 @@ int callTribute(int choice1, int choice2, struct gameState *state, int handPos, 
 {
     int tributeRevealedCards[2] = {-1, -1};
     int i; 
-    
+
      if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1) {
             if (state->deckCount[nextPlayer] > 0) {
                 tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
@@ -1277,7 +1277,7 @@ int callTribute(int choice1, int choice2, struct gameState *state, int handPos, 
             tributeRevealedCards[1] = -1;
         }
     
-        for (i = 0; i <= 2; i ++) {
+        for (i = 0; i < 2; i ++) {
             if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
                 state->coins += 2;
             }

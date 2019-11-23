@@ -1,3 +1,7 @@
+#include "dominion.h"
+#include "dominion_helpers.h"
+#include "interface.h"
+#include "rngs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -6,10 +10,6 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "dominion.h"
-#include "dominion_helpers.h"
-#include "interface.h"
-#include "rngs.h"
 
 void assertTrue(int test, int value) {
 	if (test == value) {
@@ -20,7 +20,10 @@ void assertTrue(int test, int value) {
 	}
 }
 
-int getDiscardEstates(struct gameState *state, int currentPlayer) {
+/* HELPER FUNCTIONS FOR testBaron */
+
+//go through the discard to check number of estates
+int numDiscardEstates(struct gameState *state, int currentPlayer) {
 
 	int discardEstates = 0;
 	for (int i = 0; i < state->discardCount[currentPlayer]; i++) {
@@ -31,6 +34,7 @@ int getDiscardEstates(struct gameState *state, int currentPlayer) {
 	return discardEstates;
 }
 
+//go through the hand to check number of estatess
 int getNumEstates(struct gameState *state, int currentPlayer) {
 
 	int numEstates = 0;
@@ -43,81 +47,84 @@ int getNumEstates(struct gameState *state, int currentPlayer) {
 }
 
 int testBaron(int choice1, struct gameState *state, int currentPlayer) {
-	//choice1==1 is discard an estate
 
-	struct gameState preTest;
-	memcpy(&preTest, state, sizeof(struct gameState));
+	// initialize game
+	struct gameState gTest;
+	memcpy(&gTest, state, sizeof(struct gameState));
 
-	int returnVal = callBaron(choice1, state, currentPlayer);
-
-	assertTrue(preTest.numBuys + 1, state->numBuys);
-	printf("TEST: 1 more buy.\n");
+	int val = callBaron(choice1, state, currentPlayer);
 
 	//Discard estate
-	if (choice1 == 1 && getNumEstates(&preTest, currentPlayer) > 0) {
-		printf("Discarding Estate\n");
-		assertTrue(getNumEstates(&preTest, currentPlayer) - 1, getNumEstates(state, currentPlayer));
-		printf("TEST: 1 fewer estate in hand.\n");
-		assertTrue(preTest.coins + 4, state->coins);
+	if (choice1 == 1 && getNumEstates(&gTest, currentPlayer) > 0) {
+		printf("CASE: Discard Estate\n");
+		
+		assertTrue(getNumEstates(&gTest, currentPlayer) - 1, getNumEstates(state, currentPlayer));
+		printf("TEST: -1 estate from hand.\n");
+		
+		assertTrue(gTest.coins + 4, state->coins);
 		printf("TEST: Coins + 4.\n");
-		assertTrue(getDiscardEstates(&preTest, currentPlayer) + 1, getDiscardEstates(state, currentPlayer));
-		printf("TEST: 1 more estate in discard pile.\n");
+		
+		assertTrue(numDiscardEstates(&gTest, currentPlayer) + 1, numDiscardEstates(state, currentPlayer));
+		printf("TEST: +1 estate to discard pile.\n");
 	}
-	//gain estate
+
+	//Gain estate
 	else {
-		printf("Gaining Estate\n");
-		assertTrue(getNumEstates(&preTest, currentPlayer) + 1, getNumEstates(state, currentPlayer));
+		printf("CASE: Gaining Estate\n");
+		
+		assertTrue(getNumEstates(&gTest, currentPlayer) + 1, getNumEstates(state, currentPlayer));
 		printf("TEST: 1 more estate in hand.\n");
-		assertTrue(preTest.coins, state->coins);
+		
+		assertTrue(gTest.coins, state->coins);
 		printf("TEST: Coins unchanged.\n");
-		assertTrue(supplyCount(1, &preTest) - 1, supplyCount(1, state));
+		
+		assertTrue(supplyCount(1, &gTest) - 1, supplyCount(1, state));
 		printf("TEST: 1 fewer estate in supply pile.\n");
 	}
 
-	return returnVal;
-
+	return val;
 }
+
 
 int main() {
 
+	// initialize game state
 	struct gameState G;
-	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
-		sea_hag, tribute, smithy };
 	srand(time(0));
 
-	printf("Tests for BARON\n");
+	printf("TESTS FOR BARON\n");
 
 	PutSeed(3);
 	SelectStream(2);
 
 	for (int i = 0; i < 2000; i++) {
-		int posNeg = floor(Random() * 2);
 		for (int j = 0; j < sizeof(struct gameState); j++) {
 			((char*)&G)[i] = floor(Random() * 256);
 		}
-		//initializing all the cards in the supply
+		//initializing cards in the supply
 		for (int j = 0; j < 27; j++) {
 			G.supplyCount[j] = floor(Random() * 10);
 		}
 		//initializing numBuys and coins
 		G.numBuys = floor(Random() * 256);
 		G.coins = floor(Random() * 256);
-		if (posNeg == 1) {
-			G.numBuys *= -1;
-			G.coins *= -1;
-		}
+
+		//randomizing which choice the player chooses
 		int choice1 = floor(Random() * 2);
 		int player = floor(Random() * 3 + 2);
+
 		G.handCount[player] = 0;
 		G.deckCount[player] = 0;
 		G.discardCount[player] = 0;
 		G.whoseTurn = player;
-		//initializing handCount and hand
+		
+		//initializing handCount and the current hand
 		for (int j = 0; j < floor(Random() * 500); j++) {
 			int supplyPos = floor(Random() * 27);
 			gainCard(supplyPos, &G, 2, player);
 		}
 
+		// running the test
 		testBaron(choice1, &G, player);
 	}
 
