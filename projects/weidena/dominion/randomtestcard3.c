@@ -117,7 +117,7 @@ int main() {
 		int revealedCard1 = G.hand[numPlayers - 1][0];
 		int revealedCard2 = G.hand[numPlayers - 1][1];
 		if (random == 0) {
-			revealedCard1 = revealedCard1;
+			revealedCard1 = revealedCard2;
 		}
 
 		testTribute(0, revealedCard1, revealedCard2, numPlayers, &G);
