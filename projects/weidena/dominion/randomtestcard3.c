@@ -1,8 +1,3 @@
-/* -----------------------------------------------------------------------
-* Random Test for Tribute function
-*
-* -----------------------------------------------------------------------
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -16,9 +11,6 @@
 #include "interface.h"
 #include "rngs.h"
 
-
-
-
 void assertTrue(int test, int value) {
 	if (test == value) {
 		printf("PASSED\t");
@@ -28,7 +20,7 @@ void assertTrue(int test, int value) {
 	}
 }
 
-int testTribute(int revealedCard1, int revealedCard2, int currentPlayer, struct gameState *state) {
+int testTribute(int handPos, int revealedCard1, int revealedCard2, int currentPlayer, struct gameState *state) {
 
 	struct gameState preTest;
 	memcpy(&preTest, state, sizeof(struct gameState));
@@ -40,7 +32,7 @@ int testTribute(int revealedCard1, int revealedCard2, int currentPlayer, struct 
 	int opponentDeckCount = state->deckCount[1];
 	int opponentHandCount = state->handCount[1];
 
-	int returnVal = tributeEffect(currentPlayer, currentPlayer - 1, state);
+	int returnVal = callTribute(revealedCard1, revealedCard2, state, handPos, currentPlayer, currentPlayer-1);
 
 	assertTrue(preTest.deckCount[currentPlayer - 1], state->deckCount[currentPlayer - 1]);
 	printf("TEST: Opponent Deck unchanged\n");
@@ -162,6 +154,7 @@ int main() {
 		}
 	//Random test of basic card functionality	
 		int seed = rand() % 1000;
+        int choice1 = rand() % 2 + 1;
 		int choice2 = rand() % 2 + 1;
 		int numPlayers = rand() % 2 + 3;
 		G.numPlayers = numPlayers;
@@ -192,41 +185,8 @@ int main() {
 			revealedCard1 = revealedCard1;
 		}
 
-		testTribute(revealedCard1, revealedCard2, numPlayers, &G);
+		testTribute(0, revealedCard1, revealedCard2, numPlayers, &G);
 	}
-
-	/*
-	for (int i = 0; i < 10; i++) {
-		int seed = rand() % 1000;
-		int choice2 = rand() % 2 + 1;
-		printf("\nStarting new round of tests.\n");
-		initializeGame(2, k, seed, &G);
-		shuffle(1, &G);
-		while (G.deckCount[1] > 0)
-		{
-			drawCard(1, &G);
-		}
-		while (G.handCount[1] > 2)
-		{
-			discardCard(0, 1, &G, 0);
-		}
-		for (int j = 0; j < 2; j++) {
-			drawCard(1, &G);
-		}
-		int random = rand() % 3;
-		if (random == 0) {
-			for (int j = 0; j < 5; j++) {
-				int card = rand() % 20 + 1;
-				gainCard(card, &G, 0, 1);
-			}
-		}
-		int revealedCard1 = G.hand[1][0];
-		int revealedCard2 = G.hand[1][1];
-		if (random == 0) {
-			revealedCard1 = revealedCard1;
-		}
-		testTribute(revealedCard1, revealedCard2, 0, &G);
-	}*/
 
 	return 0;
 }

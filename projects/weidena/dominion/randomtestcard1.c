@@ -1,8 +1,3 @@
-/* -----------------------------------------------------------------------
-* Random Test for Baron function
-* 
-* -----------------------------------------------------------------------
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -15,7 +10,6 @@
 #include "dominion_helpers.h"
 #include "interface.h"
 #include "rngs.h"
-
 
 void assertTrue(int test, int value) {
 	if (test == value) {
@@ -54,7 +48,7 @@ int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 	struct gameState preTest;
 	memcpy(&preTest, state, sizeof(struct gameState));
 
-	int returnVal = baronEffect(choice1, state, currentPlayer);
+	int returnVal = callBaron(choice1, state, currentPlayer);
 
 	assertTrue(preTest.numBuys + 1, state->numBuys);
 	printf("TEST: 1 more buy.\n");
@@ -126,3 +120,5 @@ int main() {
 
 		testBaron(choice1, &G, player);
 	}
+
+}

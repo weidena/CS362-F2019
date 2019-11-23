@@ -1,8 +1,3 @@
-/* -----------------------------------------------------------------------
-* Unit Test for Minion function
-*
-* -----------------------------------------------------------------------
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -30,7 +25,7 @@ int testMinion(int handPos, int currentPlayer, int choice1, int choice2, struct 
 	struct gameState preTest;
 	memcpy(&preTest, state, sizeof(struct gameState));
 
-	int returnVal = minionEffect(handPos, currentPlayer, choice1, choice2, state);
+	int returnVal = callMinion(choice1, choice2, state, handPos, currentPlayer);
 
 	assertTrue(preTest.numActions + 1, state->numActions);
 	printf("TEST: 2 more coins.\n");
