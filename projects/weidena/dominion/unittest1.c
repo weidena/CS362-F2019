@@ -55,7 +55,7 @@ int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 	int supplyEstates = supplyCount(1, state);
 	int money = state->coins;
 
-	int val = callBaron(choice1, state, currentPlayer);
+	int val = baronEffect(choice1, state, currentPlayer);
 
 	//Discard estate
 	if (choice1 == 1 && numEstates > 0) {

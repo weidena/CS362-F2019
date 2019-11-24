@@ -31,7 +31,7 @@ int testTribute(int handPos, int revealedCard1, int revealedCard2, int currentPl
 	int opponentHandCount = state->handCount[1];
     
     // call callTribute
-	int val = callTribute(revealedCard1, revealedCard2, state, handPos, currentPlayer, currentPlayer-1);
+	int val = tributeEffect(state, handPos);
 
     // test option of treasure
     if (revealedCard1 == copper || revealedCard1 == silver || revealedCard1 == gold) {

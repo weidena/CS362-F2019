@@ -26,7 +26,7 @@ int testMinion(int handPos, int currentPlayer, int choice1, int choice2, struct 
 	int money = state->coins;
 	int deckSize = state->deckCount[currentPlayer];
 	
-    int val = callMinion(choice1, choice2, state, handPos, currentPlayer);
+    int val = minionEffect(choice1, state, currentPlayer, handPos);
 
 	// Add two coins
 	if (choice1 == 1) {
