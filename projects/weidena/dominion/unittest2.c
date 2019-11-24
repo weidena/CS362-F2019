@@ -89,4 +89,6 @@ int main() {
 		printf("Test: Other players hand count did not change.");
 	}
 
+	return 0;
+
 }

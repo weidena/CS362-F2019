@@ -49,7 +49,6 @@ int getNumEstates(struct gameState *state, int currentPlayer) {
 
 int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 
-	int oldBuys = state->numBuys;
 	int numEstates = getNumEstates(state, currentPlayer);
 	int discardEstates = numDiscardEstates(state, currentPlayer);
 	int supplyEstates = supplyCount(1, state);
@@ -88,16 +87,16 @@ int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 	return val;
 }
 
-void main (int argc, char** argv)	
+int main (int argc, char** argv)	
 {
-    struct gameState G, tmp;
+    struct gameState G;
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 	srand(time(0));
 
 	printf("Tests for BARON\n");
 
-	//hard coded tests of empty supply 
+	//hard coded tests
 	for(int i = 0; i < 10; i++){
 		int seed = rand() % 1000;
 		int choice = rand() % 2;
@@ -110,5 +109,7 @@ void main (int argc, char** argv)
 
 		testBaron(choice, &G, 0);
 	}
+
+	return 0;
 
 }
