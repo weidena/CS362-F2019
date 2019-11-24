@@ -89,12 +89,24 @@ int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 
 int main (int argc, char** argv)	
 {
-    struct gameState G;
+    struct gameState G, tmp;
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 	srand(time(0));
 
 	printf("Tests for BARON\n");
+
+	//Random test of basic card functionality	
+	for (int i = 0; i < 30; i++) {
+		int seed = rand() % 1000;
+		int choice = rand() % 2;
+		printf("\nStarting new round of tests.\n");
+		initializeGame(2, k, seed, &G);
+		memcpy(&tmp, &G, sizeof(struct gameState));
+		testBaron(choice, &G, 0);
+		assertTrue(tmp.handCount[1], G.handCount[1]);
+		printf("Test: Other players hand count did not change.");
+	}
 
 	//hard coded tests
 	for(int i = 0; i < 10; i++){
