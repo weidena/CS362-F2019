@@ -51,7 +51,7 @@ int testBaron(int choice1, struct gameState *state, int currentPlayer) {
 
 	int oldBuys = state->numBuys;
 	int numEstates = getNumEstates(state, currentPlayer);
-	int discardEstates = getDiscardEstates(state, currentPlayer);
+	int discardEstates = numDiscardEstates(state, currentPlayer);
 	int supplyEstates = supplyCount(1, state);
 	int money = state->coins;
 
