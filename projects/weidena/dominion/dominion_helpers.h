@@ -12,7 +12,7 @@ int getCost(int cardNumber);
 int cardEffect(int card, int choice1, int choice2, int choice3,
                struct gameState *state, int handPos, int *bonus);
 int callMine(int choice1, int choice2, struct gameState *state, int handPos, int currentPlayer);
-int callBaron(int choice1, struct gameState *state, int handPos, int currentPlayer);
+int callBaron(int choice1, struct gameState *state, int currentPlayer);
 int callMinion(int choice1, int choice2, struct gameState *state, int handPos, int currentPlayer);
 int callTribute(int choice1, int choice2, struct gameState *state, int handPos, int currentPlayer, int nextPlayer);
 int callAmbassador(int choice1, int choice2, struct gameState *state, int handPos, int currentPlayer);
