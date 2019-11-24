@@ -19,6 +19,15 @@ unittest2: unittest2.c dominion.o rngs.o
 unittest3: unittest3.c dominion.o rngs.o
 	gcc -o unittest3 unittest3.c dominion.o rngs.o $(CFLAGS)
 
+randomtest1: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtest1 randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+
+randomtest2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtest2 randomtestcard2.c dominion.o rngs.o $(CFLAGS)
+
+randomtest3: randomtestcard3.c dominion.o rngs.o
+	gcc -o randomtest3 randomtestcard3.c dominion.o rngs.o $(CFLAGS)
+
 randomTest1: randomtestcard1.c dominion.o rngs.o
 	gcc  -o randUnit1 -g  randomtestcard1.c dominion.o rngs.o $(CFLAGS)
 	./randUnit1 >> randomtestresults.out
